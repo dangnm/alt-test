@@ -1,0 +1,18 @@
+// Place all the styles related to the todos controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.list-item {
+    margin-bottom: 20px;
+    .btn {
+        margin-right: 10px;
+    }
+
+    &.checked {
+        .btn {
+            opacity: .7
+        }
+        .list-text {
+            text-decoration: line-through;
+        }
+    }
+}
