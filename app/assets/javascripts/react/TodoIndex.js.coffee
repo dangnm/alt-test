@@ -9,7 +9,7 @@ TodoForm = React.createFactory React.createClass
 
   onInputKeyDown: (e)->
     if e.keyCode == 13 && this.refs.todo.value.length
-      @props.submitTodo(this.refs.todo.value)
+      TodoActions.submitTodo(this.refs.todo.value)
       @setState(todoName: '')
 
   render: ->
@@ -38,24 +38,16 @@ TodoList = React.createFactory React.createClass
 window.TodoIndex = React.createClass
   getInitialState: ->
     todos: []
-  componentWillMount: ->
-    @setState(todos: @props.todos)
 
-  submitTodo: (name) ->
-    $.ajax
-      type: 'POST'
-      url: '/todos'
-      data:
-        todo:
-          name: name
-          checked: false
-      success: (response) =>
-        @state.todos.push(response)
-        @setState(todos: @state.todos)
-        console.log(response)
-      error: (response) =>
-        console.log('error')
-        console.log(response)
+  componentWillMount: ->
+    TodoStore.listen(@onChange)
+    TodoActions.initData(@props)
+
+  componentWillUnmount: ->
+    TodoStore.unlisten(@onChange)
+
+  onChange: (state)->
+    @setState(state)
     
   render: ->
     div className: 'container',
@@ -63,5 +55,5 @@ window.TodoIndex = React.createClass
         div className: 'col-xs-12',
           div {},
             h1 {}, 'Todo List'
-            TodoForm(submitTodo: @submitTodo)
+            TodoForm()
             TodoList(todos: @state.todos)
