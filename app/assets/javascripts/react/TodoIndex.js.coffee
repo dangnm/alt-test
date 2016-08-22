@@ -23,7 +23,7 @@ TodoForm = React.createFactory React.createClass
         placeholder: 'Enter todo name'
         value: @state.todoName
 
-TodoListItem = React.createFactory React.createClass
+window.TodoListItem = React.createFactory React.createClass
   render: ->
     li className: 'list-item',
       a className: 'btn btn-primary', 'Check'
